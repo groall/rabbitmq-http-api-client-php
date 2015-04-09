@@ -1,0 +1,13 @@
+{
+  "name": "groall/rabbitmq-http-api-client-php",
+  "type": "library",
+  "description": "Simple RabbitMQ Management Plugin API Client",
+  "keywords": ["api", "rabbitmq", "management"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "groall",
+      "email": "groall@nodasoft.com"
+    }
+  ]
+}
