@@ -14,7 +14,7 @@ class RabbitMqHttpApiClient {
 	 *
 	 * @var null|resource
 	 */
-	private $curl = NULL;
+	private $curl;
 
 	/**
 	 * URL HTTP API Rabbit MQ
@@ -91,7 +91,7 @@ class RabbitMqHttpApiClient {
 	 * @param $defs
 	 */
 	public function uploadDefinitions($defs) {
-		//// TODO доделать
+		// TODO need to rework/finish
 		throw new BadMethodCallException();
 	}
 
@@ -175,7 +175,7 @@ class RabbitMqHttpApiClient {
 			)
 		);
 
-		//// TODO доделать
+		// TODO need to rework/finish
 		return $this->requestPut('exchanges/' . urlencode($vhost) . '/' . urlencode($exchange));
 	}
 
@@ -244,7 +244,7 @@ class RabbitMqHttpApiClient {
 		$path = is_null($vhost)
 			? 'queues'
 			: 'queues/' . urlencode($vhost);
-		
+
 		return $this->requestGet($path);
 	}
 
@@ -277,7 +277,7 @@ class RabbitMqHttpApiClient {
 			)
 		);
 
-		//// TODO доделать
+		// TODO need to rework/finish
 		return $this->requestPut('queues/' . urlencode($vhost) . '/' . urlencode($name));
 	}
 
@@ -295,7 +295,7 @@ class RabbitMqHttpApiClient {
 	 * A list of all bindings on a given queue.
 	 *
 	 * @param string $vhost Name of an individual virtual host
-	 * @param string $queue
+	 * @param string $queue Name of an individual queue
 	 * @return array
 	 */
 	public function listQueueBindings($vhost, $queue) {
@@ -304,20 +304,20 @@ class RabbitMqHttpApiClient {
 
 	/**
 	 * @param string $vhost Name of an individual virtual host
-	 * @param string $name
+	 * @param string $queue Name of an individual queue
 	 */
-	public function purgeQueue($vhost, $name) {
-		//// TODO доделать
-		$this->requestDelete('queues/' . urlencode($vhost) . '/' . urlencode($name) . '/contents');
-//Hashie::Mash.new
+	public function purgeQueue($vhost, $queue) {
+		// TODO need to rework/finish
+		$this->requestDelete('queues/' . urlencode($vhost) . '/' . urlencode($queue) . '/contents');
+		//Hashie::Mash.new
 	}
 
 	/**
 	 * @param string $vhost Name of an individual virtual host
-	 * @param string $name Name of an individual queue
+	 * @param string $queue Name of an individual queue
 	 * @param array $options
 	 */
-	public function getMessages($vhost, $name, array $options) {
+	public function getMessages($vhost, $queue, array $options) {
 		$dataString = json_encode($options);
 		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $dataString);
 		curl_setopt($this->curl, CURLOPT_HTTPHEADER,
@@ -327,8 +327,8 @@ class RabbitMqHttpApiClient {
 			)
 		);
 
-		//// TODO доделать
-		return $this->requestPost('queues' . urlencode($vhost) . '/' . urlencode($name) . '/get');
+		// TODO need to rework/finish
+		return $this->requestPost('queues' . urlencode($vhost) . '/' . urlencode($queue) . '/get');
 	}
 
 	/**
@@ -342,13 +342,13 @@ class RabbitMqHttpApiClient {
 		$path = is_null($vhost)
 			? 'bindings'
 			: 'bindings/' . urlencode($vhost);
-	
+
 		return $this->requestGet($path);
 	}
 
 	/**
 	 * @param string $vhost Name of an individual virtual host
-	 * @param string $queue
+	 * @param string $queue Name of an individual queue
 	 * @param string $exchange
 	 * @return array
 	 */
@@ -358,8 +358,8 @@ class RabbitMqHttpApiClient {
 
 	/**
 	 * @param string $vhost Name of an individual virtual host
-	 * @param string $queue
-	 * @param string $exchange
+	 * @param string $queue Name of an individual queue
+	 * @param string $exchange Name of an individual exchange
 	 * @param string $propertiesKey
 	 * @return array
 	 */
@@ -377,7 +377,7 @@ class RabbitMqHttpApiClient {
 	public function bindQueue($vhost, $queue, $exchange, $routingKey, array $arguments = array()) {
 		$dataString = json_encode(array(
 			'routing_key' => $routingKey,
-		    'arguments' => $arguments
+			'arguments' => $arguments
 		));
 		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $dataString);
 		curl_setopt($this->curl, CURLOPT_HTTPHEADER,
@@ -387,7 +387,7 @@ class RabbitMqHttpApiClient {
 			)
 		);
 
-		//// TODO доделать
+		// TODO need to rework/finish
 		//resp.headers['location']
 		return $this->requestPost('bindings/' . urlencode($vhost) . '/e/' . urlencode($exchange) . '/q/' . urlencode($queue));
 	}
@@ -399,10 +399,10 @@ class RabbitMqHttpApiClient {
 	 * @param string $propertiesKey
 	 */
 	public function deleteQueueBinding($vhost, $queue, $exchange, $propertiesKey) {
-		//// TODO доделать
+		// TODO need to rework/finish
 		$response = $this->requestDelete('bindings/' . urlencode($vhost) . '/e/' . urlencode($exchange) . '/q/' . urlencode($queue) . '/' . urlencode($propertiesKey));
-//resp.success?
-		}
+		//resp.success?
+	}
 
 	/**
 	 * A list of all vhosts.
@@ -485,7 +485,7 @@ class RabbitMqHttpApiClient {
 				'Content-Length: ' . strlen($dataString)
 			)
 		);
-		//// TODO доделать
+		// TODO need to rework/finish
 		return $this->requestPut('permissions/' . urlencode($vhost) . '/' . urlencode($user));
 	}
 
@@ -534,7 +534,7 @@ class RabbitMqHttpApiClient {
 				'Content-Length: ' . strlen($dataString)
 			)
 		);
-		//// TODO доделать
+		// TODO need to rework/finish
 		return $this->requestPut('users/' . urlencode($name));
 	}
 
@@ -608,7 +608,7 @@ class RabbitMqHttpApiClient {
 				'Content-Length: ' . strlen($dataString)
 			)
 		);
-		// TODO доделать
+		// TODO need to rework/finish
 		return $this->requestPut('policies/' . urlencode($vhost) . '/' . urlencode($name));
 	}
 
@@ -668,7 +668,7 @@ class RabbitMqHttpApiClient {
 				'Content-Length: ' . strlen($dataString)
 			)
 		);
-		//// TODO доделать
+		// TODO need to rework/finish
 		return $this->requestPut('parameters/' . urlencode($component) . '/' . urlencode($vhost) . '/' . urlencode($name));
 	}
 
@@ -733,7 +733,7 @@ class RabbitMqHttpApiClient {
 		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
 		$url = $this->buildGetUrl($this->getServiceUrl($path), $requestVars);
 		curl_setopt($this->curl, CURLOPT_URL, $url);
-		curl_setopt($this->curl, CURLOPT_POST, FALSE);
+		curl_setopt($this->curl, CURLOPT_POST, TRUE);
 
 		return $this->execCurl();
 	}
