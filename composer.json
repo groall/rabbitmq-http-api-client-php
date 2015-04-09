@@ -9,5 +9,10 @@
       "name": "groall",
       "email": "groall@nodasoft.com"
     }
-  ]
+  ],
+  "autoload": {
+    "psr-0": {
+      "RabbitMqHttpApiClient": "sources/"
+    }
+  }
 }
