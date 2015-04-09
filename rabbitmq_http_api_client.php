@@ -327,7 +327,6 @@ class RabbitMqHttpApiClient {
 			)
 		);
 
-		// TODO need to rework/finish
 		return $this->requestPost('queues' . urlencode($vhost) . '/' . urlencode($queue) . '/get');
 	}
 
@@ -353,6 +352,7 @@ class RabbitMqHttpApiClient {
 	 * @return array
 	 */
 	public function listBindingsBetweenQueueAndExchange($vhost, $queue, $exchange) {
+
 		return $this->requestGet('bindings/' . urlencode($vhost) . '/e/' . urlencode($exchange) . '/q/' . urlencode($queue));
 	}
 
@@ -364,6 +364,7 @@ class RabbitMqHttpApiClient {
 	 * @return array
 	 */
 	public function queueBindingInfo($vhost, $queue, $exchange, $propertiesKey) {
+
 		return $this->requestGet('bindings/' . urlencode($vhost) . '/e/' . urlencode($exchange) . '/q/' . urlencode($queue) . '/' . urlencode($propertiesKey));
 	}
 
@@ -388,7 +389,7 @@ class RabbitMqHttpApiClient {
 		);
 
 		// TODO need to rework/finish
-		//resp.headers['location']
+		//response['location']
 		return $this->requestPost('bindings/' . urlencode($vhost) . '/e/' . urlencode($exchange) . '/q/' . urlencode($queue));
 	}
 
@@ -401,7 +402,8 @@ class RabbitMqHttpApiClient {
 	public function deleteQueueBinding($vhost, $queue, $exchange, $propertiesKey) {
 		// TODO need to rework/finish
 		$response = $this->requestDelete('bindings/' . urlencode($vhost) . '/e/' . urlencode($exchange) . '/q/' . urlencode($queue) . '/' . urlencode($propertiesKey));
-		//resp.success?
+
+		return $response['success'];
 	}
 
 	/**
@@ -410,6 +412,7 @@ class RabbitMqHttpApiClient {
 	 * @return array
 	 */
 	public function listVhosts() {
+
 		return $this->requestGet('vhosts');
 	}
 
@@ -420,6 +423,7 @@ class RabbitMqHttpApiClient {
 	 * @return array
 	 */
 	public function vhostInfo($name) {
+
 		return $this->requestGet('vhosts/' . urlencode($name));
 	}
 
@@ -465,6 +469,7 @@ class RabbitMqHttpApiClient {
 	 * @return array
 	 */
 	public function listPermissionsOf($vhost, $user) {
+
 		return $this->requestGet('permissions/' . urlencode($vhost) . '/' . urlencode($user));
 	}
 
@@ -485,7 +490,7 @@ class RabbitMqHttpApiClient {
 				'Content-Length: ' . strlen($dataString)
 			)
 		);
-		// TODO need to rework/finish
+
 		return $this->requestPut('permissions/' . urlencode($vhost) . '/' . urlencode($user));
 	}
 
@@ -505,6 +510,7 @@ class RabbitMqHttpApiClient {
 	 * @return array
 	 */
 	public function listUsers() {
+
 		return $this->requestGet('users');
 	}
 
@@ -515,6 +521,7 @@ class RabbitMqHttpApiClient {
 	 * @return array
 	 */
 	public function userInfo($name) {
+
 		return $this->requestGet('users/' . urlencode($name));
 	}
 
@@ -535,7 +542,7 @@ class RabbitMqHttpApiClient {
 				'Content-Length: ' . strlen($dataString)
 			)
 		);
-		// TODO need to rework/finish
+
 		return $this->requestPut('users/' . urlencode($name));
 	}
 
@@ -545,6 +552,7 @@ class RabbitMqHttpApiClient {
 	 * @param string $name Name of an individual user
 	 */
 	public function deleteUser($name) {
+
 		$this->requestDelete('users/' . urlencode($name));
 	}
 
@@ -555,6 +563,7 @@ class RabbitMqHttpApiClient {
 	 * @return array
 	 */
 	public function userPermissions($name) {
+
 		return $this->requestGet('users/' . urlencode($name) . '/permissions');
 	}
 
@@ -564,6 +573,7 @@ class RabbitMqHttpApiClient {
 	 * @return array
 	 */
 	public function whoami() {
+
 		return $this->requestGet('whoami');
 	}
 
@@ -614,7 +624,7 @@ class RabbitMqHttpApiClient {
 				'Content-Length: ' . strlen($dataString)
 			)
 		);
-		// TODO need to rework/finish
+
 		return $this->requestPut('policies/' . urlencode($vhost) . '/' . urlencode($name));
 	}
 
@@ -674,7 +684,7 @@ class RabbitMqHttpApiClient {
 				'Content-Length: ' . strlen($dataString)
 			)
 		);
-		// TODO need to rework/finish
+
 		return $this->requestPut('parameters/' . urlencode($component) . '/' . urlencode($vhost) . '/' . urlencode($name));
 	}
 
@@ -715,6 +725,8 @@ class RabbitMqHttpApiClient {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Send request to RabbitMQ by OUT method
+	 *
 	 * @param string $path
 	 * @param array $requestVars
 	 * @return array
@@ -730,6 +742,8 @@ class RabbitMqHttpApiClient {
 	}
 
 	/**
+	 * Send request to RabbitMQ by DELETE method
+	 *
 	 * @param string $path
 	 * @param array $requestVars
 	 * @return array
@@ -745,6 +759,8 @@ class RabbitMqHttpApiClient {
 	}
 
 	/**
+	 * Send request to RabbitMQ by POST method
+	 *
 	 * @param string $path
 	 * @param array $requestVars
 	 * @return array
@@ -759,6 +775,8 @@ class RabbitMqHttpApiClient {
 	}
 
 	/**
+	 * Send request to RabbitMQ by GET method
+	 *
 	 * @param string $path
 	 * @param array $requestVars
 	 * @return array
@@ -810,6 +828,7 @@ class RabbitMqHttpApiClient {
 	 * @return string
 	 */
 	private function buildGetUrl($url, array $requestVars = array()) {
+
 		return $url
 		. ($requestVars
 			? '?' . htmlspecialchars(http_build_query($requestVars, '', '&'))
@@ -848,14 +867,11 @@ class RabbitMqHttpApiClient {
 	protected function getObjectsVars($oneResult) {
 		if (is_object($oneResult)) {
 			$oneResult = get_object_vars($oneResult);
-			foreach ($oneResult as $key => $value) {
-				$oneResult[$key] = $this->getObjectsVars($value);
-			}
-		} elseif (is_array($oneResult)) {
-			foreach ($oneResult as $key => $value) {
-				$oneResult[$key] = $this->getObjectsVars($value);
-			}
 		}
+		foreach ($oneResult as $key => $value) {
+			$oneResult[$key] = $this->getObjectsVars($value);
+		}
+
 		return $oneResult;
 	}
 }
