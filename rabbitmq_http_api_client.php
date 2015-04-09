@@ -60,7 +60,7 @@ class RabbitMqHttpApiClient {
 	/**
 	 * Details about an individual node.
 	 *
-	 * @param $name Name of an individual node
+	 * @param string $name Name of an individual node
 	 * @return array
 	 */
 	public function nodeInfo($name) {
@@ -493,7 +493,7 @@ class RabbitMqHttpApiClient {
 	 * Delete an individual permission of a user and virtual host.
 	 *
 	 * @param string $vhost Name of an individual virtual host
-	 * @param string $user
+	 * @param string $user Name of an individual user
 	 */
 	public function clearPermissionsOf($vhost, $user) {
 		$this->requestDelete('permissions/' . urlencode($vhost) . '/' . urlencode($user));
@@ -509,9 +509,9 @@ class RabbitMqHttpApiClient {
 	}
 
 	/**
-	 * An individual user. To PUT a user, you will need a body looking something like this:
+	 * Returns information about individual user.
 	 *
-	 * @param string $name
+	 * @param string $name Name of an individual user
 	 * @return array
 	 */
 	public function userInfo($name) {
@@ -519,10 +519,11 @@ class RabbitMqHttpApiClient {
 	}
 
 	/**
+	 * Updates information about individual user.
 	 * To PUT a user, you will need a body looking something like this:
 	 * {"password":"secret"}
 	 *
-	 * @param string $name
+	 * @param string $name Name of an individual user
 	 * @param array $attributes
 	 */
 	public function updateUser($name, array $attributes) {
@@ -539,9 +540,9 @@ class RabbitMqHttpApiClient {
 	}
 
 	/**
-	 * Delete a user
+	 * Delete information about individual user.
 	 *
-	 * @param string $name
+	 * @param string $name Name of an individual user
 	 */
 	public function deleteUser($name) {
 		$this->requestDelete('users/' . urlencode($name));
@@ -550,13 +551,18 @@ class RabbitMqHttpApiClient {
 	/**
 	 * Details of an user permission
 	 *
-	 * @param string $name
+	 * @param string $name Name of an individual user
 	 * @return array
 	 */
 	public function userPermissions($name) {
 		return $this->requestGet('users/' . urlencode($name) . '/permissions');
 	}
 
+	/**
+	 * Who am i ?
+	 *
+	 * @return array
+	 */
 	public function whoami() {
 		return $this->requestGet('whoami');
 	}
@@ -580,7 +586,7 @@ class RabbitMqHttpApiClient {
 	 * A list of policies of virtual host and name.
 	 *
 	 * @param string $vhost Name of an individual virtual host
-	 * @param null|string $name
+	 * @param null|string $name Name of an individual policy
 	 * @return array
 	 */
 	public function listPoliciesOf($vhost, $name = NULL) {
@@ -595,7 +601,7 @@ class RabbitMqHttpApiClient {
 	 * Update policy
 	 *
 	 * @param string $vhost Name of an individual virtual host
-	 * @param string $name
+	 * @param string $name Name of an individual policy
 	 * @param array $attributes
 	 * @return array
 	 */
@@ -616,7 +622,7 @@ class RabbitMqHttpApiClient {
 	 * Delete policy
 	 *
 	 * @param string $vhost Name of an individual virtual host
-	 * @param string $name
+	 * @param string $name Name of an individual policy
 	 */
 	public function clearPoliciesOf($vhost, $name) {
 		$this->requestDelete('policies/' . urlencode($vhost) . '/' . urlencode($name));
@@ -625,7 +631,7 @@ class RabbitMqHttpApiClient {
 	/**
 	 * A list of all parameters of component
 	 *
-	 * @param null|string $component
+	 * @param null|string $component Name of component
 	 * @return array
 	 */
 	public function listParameters($component = NULL) {
@@ -638,9 +644,9 @@ class RabbitMqHttpApiClient {
 
 	/**
 	 * A list of all parameters of component and virtual host and name
-	 * @param string $component
+	 * @param string $component Name of component
 	 * @param string $vhost Name of an individual virtual host
-	 * @param null|string $name
+	 * @param null|string $name Name of an individual parameter
 	 * @return array
 	 */
 	public function listParametersOf($component, $vhost, $name = NULL) {
@@ -654,9 +660,9 @@ class RabbitMqHttpApiClient {
 	/**
 	 * Update a parameters
 	 *
-	 * @param string $component
+	 * @param string $component Name of component
 	 * @param string $vhost Name of an individual virtual host
-	 * @param string $name
+	 * @param string $name Name of an individual parameter
 	 * @param array $attributes
 	 */
 	public function updateParametersOf($component, $vhost, $name, array $attributes) {
@@ -675,9 +681,9 @@ class RabbitMqHttpApiClient {
 	/**
 	 * Delete a parameters
 	 *
-	 * @param string $component
+	 * @param string $component Name of component
 	 * @param string $vhost Name of an individual virtual host
-	 * @param string $name
+	 * @param string $name Name of an individual parameter
 	 */
 	public function clearParametersOf($component, $vhost, $name) {
 		$this->requestDelete('parameters/' . urlencode($component) . '/' . urlencode($vhost) . '/' . urlencode($name));
@@ -789,6 +795,10 @@ class RabbitMqHttpApiClient {
 	 * @return string
 	 */
 	private function getServiceUrl($path) {
+		if (empty($path)) {
+			throw new InvalidArgumentException();
+		}
+
 		return "http://{$this->rabbitMqApiHost}/api/{$path}/";
 	}
 
