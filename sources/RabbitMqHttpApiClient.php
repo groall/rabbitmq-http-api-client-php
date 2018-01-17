@@ -528,7 +528,7 @@ class RabbitMqHttpApiClient {
      * @throws \InvalidArgumentException
 	 */
 	public function listPermissions($vhost = NULL) {
-		$path = null === vhost
+		$path = null === $vhost
 			? 'permissions'
 			: 'vhosts/' . urlencode($vhost) . '/permissions';
 
