@@ -3,7 +3,7 @@
   "type": "library",
   "description": "Simple RabbitMQ Management Plugin API Client",
   "keywords": ["api", "rabbitmq", "management"],
-  "license": "MIT",
+  "license": "Nodasoft",
   "authors": [
     {
       "name": "groall",
