@@ -1,7 +1,8 @@
-# Simple RabbitMQ Manager API PHP Client
+# Simple RabbitMQ Management API PHP Client
 
-This library is intended to help management of RabbitMQ server in an PHP application.
+This library is intended to help manage of RabbitMQ server in a PHP application.
 
+RabbitMQ Management API provided by the [RabbitMQ Management Plugin](https://www.rabbitmq.com/management.html)
 
 ### Install
 
