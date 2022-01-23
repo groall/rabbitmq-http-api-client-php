@@ -14,5 +14,9 @@
     "psr-0": {
       "RabbitMqHttpApiClient": "sources/"
     }
+  },
+  "require": {
+    "ext-curl": "*",
+    "ext-json": "*"
   }
 }
