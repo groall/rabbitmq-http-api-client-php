@@ -425,7 +425,7 @@ class RabbitMqHttpApiClient
             'Content-Length: ' . strlen($dataString),
         ]);
 
-        return $this->requestPost('queues' . urlencode($vhost) . '/' . urlencode($queue) . '/get');
+        return $this->requestPost('queues/' . urlencode($vhost) . '/' . urlencode($queue) . '/get');
     }
 
     /**
