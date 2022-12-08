@@ -1528,7 +1528,9 @@ class RabbitMqHttpApiClient
     {
         curl_setopt($this->curl, CURLOPT_URL, $this->getServiceUrl($path));
         curl_setopt($this->curl, CURLOPT_POST, true);
-        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->buildPostBody($requestVars));
+        if($requestVars) {
+            curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->buildPostBody($requestVars));
+        }
 
         return $this->execCurl();
     }
