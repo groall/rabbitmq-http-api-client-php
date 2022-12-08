@@ -1562,6 +1562,10 @@ class RabbitMqHttpApiClient
         $response = curl_exec($this->curl);
         $responseInfo = curl_getinfo($this->curl);
         if ($responseInfo['content_type'] !== 'application/json') {
+            if ($response === false) {
+                throw new RuntimeException(sprintf('Curl Error : "%s"', curl_error($this->curl)));
+            }
+
             throw new RuntimeException($response);
         }
 
