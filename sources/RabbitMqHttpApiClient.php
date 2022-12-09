@@ -1562,6 +1562,11 @@ class RabbitMqHttpApiClient
     private function execCurl()
     {
         $response = curl_exec($this->curl);
+
+        if($response === '') {
+            return [];
+        }
+
         $responseInfo = curl_getinfo($this->curl);
         if ($responseInfo['content_type'] !== 'application/json') {
             if ($response === false) {
