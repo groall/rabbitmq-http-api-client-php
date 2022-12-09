@@ -1528,7 +1528,9 @@ class RabbitMqHttpApiClient
     {
         curl_setopt($this->curl, CURLOPT_URL, $this->getServiceUrl($path));
         curl_setopt($this->curl, CURLOPT_POST, true);
-        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->buildPostBody($requestVars));
+        if($requestVars) {
+            curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->buildPostBody($requestVars));
+        }
 
         return $this->execCurl();
     }
@@ -1560,8 +1562,17 @@ class RabbitMqHttpApiClient
     private function execCurl()
     {
         $response = curl_exec($this->curl);
+
+        if($response === '') {
+            return [];
+        }
+
         $responseInfo = curl_getinfo($this->curl);
         if ($responseInfo['content_type'] !== 'application/json') {
+            if ($response === false) {
+                throw new RuntimeException(sprintf('Curl Error : "%s"', curl_error($this->curl)));
+            }
+
             throw new RuntimeException($response);
         }
 
